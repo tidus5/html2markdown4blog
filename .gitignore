@@ -12,7 +12,6 @@ $RECYCLE.BIN/
 .idea
 
 #posts file
-posts/*
 
 # Windows Installer files
 *.cab
