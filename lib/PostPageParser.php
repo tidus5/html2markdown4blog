@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set("PRC");
 class PostPageParser {
 
     //the blog achieve url
@@ -68,20 +69,25 @@ class PostPageParser {
                     $this->_title = $title;
                     break;
 
-                case 'article_manage':
-                    foreach ($div->childNodes as $_mag_item) {
+                case 'article_manage clearfix':
+                    foreach ($div->childNodes as $_mag_item) {						
                         if ($_mag_item->nodeType == XML_ELEMENT_NODE) {
                             $_class = $_mag_item->getAttribute('class');
-                            if ($_class == 'link_categories') {
-                                $_anchors = $_mag_item->getElementsByTagName('a');
-                                $_i = 0;
-                                while ($_a = $_anchors->item($_i++)) {
-                                    $this->_categories[] = trim($_a->nodeValue);
-                                }
-                            } else if ($_class == 'link_postdate') {
-                                $_date = trim($_mag_item->nodeValue);
-                                $this->_date = strtotime($_date);
-                            }
+	                    foreach ($_mag_item->childNodes as $_span_item) {
+	                        if ($_span_item->nodeType == XML_ELEMENT_NODE) {
+	                            $span_class = $_span_item->getAttribute('class');
+	                            if ($span_class == 'link_categories') {
+	                                $_anchors = $_span_item->getElementsByTagName('a');
+	                                $_i = 0;
+	                                while ($_a = $_anchors->item($_i++)) {
+	                                    $this->_categories[] = trim($_a->nodeValue);
+	                                }
+	                            } else if ($span_class == 'link_postdate') {
+	                                $_date = trim($_span_item->nodeValue);
+	                                $this->_date = strtotime($_date);
+	                            }
+	                        }
+	                    }
                         }
                     }
                     break;
